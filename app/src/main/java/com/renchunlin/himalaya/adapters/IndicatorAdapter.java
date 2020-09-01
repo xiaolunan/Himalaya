@@ -14,7 +14,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorT
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
 
 /*
- * class title:
+ * class title: Indicator 适配器
  * Author by RenChunLin, Email 18957806320@163.com, Date on 2020/9/1.
  * PS: Not easy to write code, please indicate.
  */
