@@ -18,6 +18,7 @@ public class MainActivity extends FragmentActivity {
     private static final String TAG = "MainActivity";
     private MagicIndicator magicIndicator;
     private ViewPager viewPager;
+    private IndicatorAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,14 +26,17 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         initView();
+        initEvent();
     }
 
     private void initView() {
         magicIndicator = findViewById(R.id.main_indicator);
         magicIndicator.setBackgroundColor(getResources().getColor(R.color.main_color));
         //创建indicator的适配器
-        IndicatorAdapter adapter = new IndicatorAdapter(this);
+        adapter = new IndicatorAdapter(this);
         CommonNavigator commonNavigator = new CommonNavigator(this);
+        //平分标题距离
+        commonNavigator.setAdjustMode(true);
         commonNavigator.setAdapter(adapter);
 
         //ViewPager
@@ -44,5 +48,16 @@ public class MainActivity extends FragmentActivity {
         //把ViewPager和Indicator绑定到一起
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator, viewPager);
+    }
+
+    private void initEvent() {
+        adapter.setOnIndicatorTabClickListener(new IndicatorAdapter.OnIndicatorTabClickListener() {
+            @Override
+            public void onTabClick(int index) {
+                if (viewPager != null) {
+                    viewPager.setCurrentItem(index);
+                }
+            }
+        });
     }
 }
