@@ -79,8 +79,8 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
 
             albumTitleTv.setText(album.getAlbumTitle());
             albumDesTv.setText(album.getAlbumIntro());
-            albumPlayCountTv.setText(album.getPlayCount() + "");
-            albumContentCountTv.setText(album.getIncludeTrackCount() + "");
+            albumPlayCountTv.setText(album.getPlayCount() + "万");
+            albumContentCountTv.setText(album.getIncludeTrackCount() + "集");
             Picasso.get().load(album.getCoverUrlLarge()).into(albumCover);
         }
     }
