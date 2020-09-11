@@ -3,6 +3,7 @@ package com.renchunlin.himalaya;
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.renchunlin.himalaya.adapters.IndicatorAdapter;
@@ -42,7 +43,7 @@ public class MainActivity extends FragmentActivity {
         //ViewPager
         viewPager = findViewById(R.id.content_pager);
         //创建内容适配器
-        MainContentAdapter mainContentAdapter = new MainContentAdapter(getSupportFragmentManager());
+        MainContentAdapter mainContentAdapter = new MainContentAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPager.setAdapter(mainContentAdapter);
 
         //把ViewPager和Indicator绑定到一起
