@@ -14,32 +14,60 @@ import com.renchunlin.himalaya.R;
 import com.renchunlin.himalaya.adapters.RecommendListAdapter;
 import com.renchunlin.himalaya.base.BaseFragment;
 import com.renchunlin.himalaya.interfaces.IRecommendViewCallback;
+import com.renchunlin.himalaya.view.UILoader;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.util.List;
+import java.util.Objects;
 
 /*
  * class title: 推荐Fragment
  * Author by RenChunLin, Email 18957806320@163.com, Date on 2020/9/1.
  * PS: Not easy to write code, please indicate.
  */
-public class RecommendFragment extends BaseFragment implements IRecommendViewCallback {
+public class RecommendFragment extends BaseFragment implements IRecommendViewCallback, UILoader.OnRetryClickListener {
 
     public static final String TAG = "RecommendFragment";
-    private RecyclerView mRecommendRv;
     private RecommendListAdapter recommendListAdapter;
     private RecommendPresenter mRecommendPresenter;
+    private UILoader mUiLoader;
 
     @Override
-    protected View onSubViewLoaded(LayoutInflater layoutInflater, ViewGroup container) {
+    protected View onSubViewLoaded(final LayoutInflater layoutInflater, ViewGroup container) {
+
+        mUiLoader = new UILoader(Objects.requireNonNull(getContext())) {
+            @Override
+            protected View getSuccessView(ViewGroup container) {
+                return createSuccessView(layoutInflater, container);
+            }
+        };
+
+        //获取到逻辑层对象
+        mRecommendPresenter = RecommendPresenter.getInstance();
+        //先要设置通知接口的注册
+        mRecommendPresenter.registerViewCallback(this);
+        //获取推荐列表
+        mRecommendPresenter.getRecommendList();
+
+        if (mUiLoader.getParent() instanceof ViewGroup) {
+            ((ViewGroup) mUiLoader.getParent()).removeView(mUiLoader);
+        }
+
+        mUiLoader.setOnRetryClickListener(this);
+
+        //返回view,给界面显示
+        return mUiLoader;
+    }
+
+    private View createSuccessView(LayoutInflater layoutInflater, ViewGroup container) {
         //View加载完成
         View rootView = layoutInflater.inflate(R.layout.fragment_recommend, container, false);
 
         //RecyclerView的使用
         //1.找到控件
-        mRecommendRv = rootView.findViewById(R.id.recommend_list);
+        RecyclerView mRecommendRv = rootView.findViewById(R.id.recommend_list);
         //2.设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -58,14 +86,6 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
         recommendListAdapter = new RecommendListAdapter();
         mRecommendRv.setAdapter(recommendListAdapter);
 
-        //获取到逻辑层对象
-        mRecommendPresenter = RecommendPresenter.getInstance();
-        //先要设置通知接口的注册
-        mRecommendPresenter.registerViewCallback(this);
-        //获取推荐列表
-        mRecommendPresenter.getRecommendList();
-
-        //返回view,给界面显示
         return rootView;
     }
 
@@ -76,16 +96,22 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
 
         //把数据s设置给适配器，并且更新ui
         recommendListAdapter.setData(result);
+        mUiLoader.updateStatus(UILoader.UIStatus.SUCCESS);
     }
 
     @Override
-    public void onLoaderMore(List<Album> result) {
-
+    public void onNetWorkError() {
+        mUiLoader.updateStatus(UILoader.UIStatus.NETWORK_ERROR);
     }
 
     @Override
-    public void onRefreshMore(List<Album> result) {
+    public void onEmpty() {
+        mUiLoader.updateStatus(UILoader.UIStatus.EMPTY);
+    }
 
+    @Override
+    public void onLoading() {
+        mUiLoader.updateStatus(UILoader.UIStatus.LOADING);
     }
 
     @Override
@@ -94,6 +120,14 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
         //取消接口的注册
         if (mRecommendPresenter != null) {
             mRecommendPresenter.unRegisterViewCallback(this);
+        }
+    }
+
+    @Override
+    public void onRetryClick() {
+        //表示网络不佳，用户点击重试
+        if (mRecommendPresenter != null) {
+            mRecommendPresenter.getRecommendList();
         }
     }
 }

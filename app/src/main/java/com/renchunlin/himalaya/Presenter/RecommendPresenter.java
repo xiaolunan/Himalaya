@@ -32,7 +32,6 @@ public class RecommendPresenter implements IRecommendPresenter {
 
     /**
      * 获取单例对象
-     *
      * @return
      */
     public synchronized static RecommendPresenter getInstance() {
@@ -44,6 +43,7 @@ public class RecommendPresenter implements IRecommendPresenter {
 
     @Override
     public void getRecommendList() {
+        updateLoading();
         //获取推荐内容
         //封装参数
         Map<String, String> map = new HashMap<String, String>();
@@ -68,27 +68,39 @@ public class RecommendPresenter implements IRecommendPresenter {
                 //数据获取失败
                 LogUtil.e(TAG, "error---->" + i);
                 LogUtil.e(TAG, "errorMsg---->" + s);
+                handlerError();
             }
         });
     }
 
-    private void handlerRecommendResult(List<Album> albumList) {
-        //通知ui更新
+
+    private void handlerError() {
         if (mCallbacks != null) {
             for (IRecommendViewCallback callback : mCallbacks) {
-                callback.onRecommendListLoaded(albumList);
+                callback.onNetWorkError();
             }
         }
     }
 
-    @Override
-    public void pull2RefreshMore() {
-
+    private void handlerRecommendResult(List<Album> albumList) {
+        //通知ui更新
+        if (albumList != null) {
+            if (albumList.size() == 0) {
+                for (IRecommendViewCallback callback : mCallbacks) {
+                    callback.onNetWorkError();
+                }
+            } else {
+                for (IRecommendViewCallback callback : mCallbacks) {
+                    callback.onRecommendListLoaded(albumList);
+                }
+            }
+        }
     }
 
-    @Override
-    public void loadMore() {
-
+    private void updateLoading() {
+        for (IRecommendViewCallback callback : mCallbacks) {
+            callback.onLoading();
+        }
     }
 
     @Override

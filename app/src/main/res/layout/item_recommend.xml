@@ -4,7 +4,7 @@
     android:background="@drawable/shape_album_item_bg"
     android:layout_height="75dp">
 
-    <com.renchunlin.himalaya.utils.RoundRectImageView
+    <com.renchunlin.himalaya.view.RoundRectImageView
         android:id="@+id/album_cover"
         android:layout_width="68dp"
         android:layout_height="65dp"

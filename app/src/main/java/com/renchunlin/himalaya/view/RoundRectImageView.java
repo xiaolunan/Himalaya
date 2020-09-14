@@ -1,4 +1,4 @@
-package com.renchunlin.himalaya.utils;
+package com.renchunlin.himalaya.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
