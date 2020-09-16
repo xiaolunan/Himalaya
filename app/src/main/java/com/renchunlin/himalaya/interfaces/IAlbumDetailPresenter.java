@@ -5,7 +5,7 @@ package com.renchunlin.himalaya.interfaces;
  * Author by RenChunLin, Email 18957806320@163.com, Date on 2020/9/15.
  * PS: Not easy to write code, please indicate.
  */
-public interface IAlbumDetialPresenter {
+public interface IAlbumDetailPresenter {
     /**
      * 下拉刷新
      */
