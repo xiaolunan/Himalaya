@@ -2,19 +2,19 @@ package com.renchunlin.himalaya;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.renchunlin.himalaya.adapters.IndicatorAdapter;
 import com.renchunlin.himalaya.adapters.MainContentAdapter;
+import com.renchunlin.himalaya.base.BaseActivity;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
     private MagicIndicator magicIndicator;

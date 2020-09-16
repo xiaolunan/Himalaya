@@ -32,6 +32,7 @@ public class RecommendPresenter implements IRecommendPresenter {
 
     /**
      * 获取单例对象
+     *
      * @return
      */
     public synchronized static RecommendPresenter getInstance() {
@@ -44,6 +45,7 @@ public class RecommendPresenter implements IRecommendPresenter {
     @Override
     public void getRecommendList() {
         updateLoading();
+
         //获取推荐内容
         //封装参数
         Map<String, String> map = new HashMap<String, String>();
@@ -73,7 +75,6 @@ public class RecommendPresenter implements IRecommendPresenter {
         });
     }
 
-
     private void handlerError() {
         if (mCallbacks != null) {
             for (IRecommendViewCallback callback : mCallbacks) {
@@ -87,7 +88,7 @@ public class RecommendPresenter implements IRecommendPresenter {
         if (albumList != null) {
             if (albumList.size() == 0) {
                 for (IRecommendViewCallback callback : mCallbacks) {
-                    callback.onNetWorkError();
+                    callback.onEmpty();
                 }
             } else {
                 for (IRecommendViewCallback callback : mCallbacks) {

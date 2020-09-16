@@ -1,5 +1,6 @@
 package com.renchunlin.himalaya.fragments;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.renchunlin.himalaya.Presenter.AlbumDetailPresenter;
 import com.renchunlin.himalaya.Presenter.RecommendPresenter;
 import com.renchunlin.himalaya.R;
+import com.renchunlin.himalaya.activity.DetailActivity;
 import com.renchunlin.himalaya.adapters.RecommendListAdapter;
 import com.renchunlin.himalaya.base.BaseFragment;
 import com.renchunlin.himalaya.interfaces.IRecommendViewCallback;
@@ -27,7 +30,7 @@ import java.util.Objects;
  * Author by RenChunLin, Email 18957806320@163.com, Date on 2020/9/1.
  * PS: Not easy to write code, please indicate.
  */
-public class RecommendFragment extends BaseFragment implements IRecommendViewCallback, UILoader.OnRetryClickListener {
+public class RecommendFragment extends BaseFragment implements IRecommendViewCallback, UILoader.OnRetryClickListener, RecommendListAdapter.OnRecommendItemClickListener {
 
     public static final String TAG = "RecommendFragment";
     private RecommendListAdapter recommendListAdapter;
@@ -85,7 +88,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
         //3.设置适配器
         recommendListAdapter = new RecommendListAdapter();
         mRecommendRv.setAdapter(recommendListAdapter);
-
+        recommendListAdapter.setRecommendItemClickListener(this);
         return rootView;
     }
 
@@ -129,5 +132,13 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
         if (mRecommendPresenter != null) {
             mRecommendPresenter.getRecommendList();
         }
+    }
+
+    @Override
+    public void onItemClick(int position, Album album) {
+        AlbumDetailPresenter.getInstance().setTargetAlbum(album);
+        //item被点击了,跳转到详情页面
+        Intent intent = new Intent(getContext(), DetailActivity.class);
+        startActivity(intent);
     }
 }

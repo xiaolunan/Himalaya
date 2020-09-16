@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.renchunlin.himalaya.R;
+import com.renchunlin.himalaya.utils.Wan;
 import com.squareup.picasso.Picasso;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 
@@ -24,6 +25,8 @@ import java.util.List;
 public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdapter.ViewHolder> {
 
     private List<Album> mData = new ArrayList<>();
+    private static final String TAG = "RecommendListAdapter";
+    private OnRecommendItemClickListener mItemClickListener = null;
 
     @NonNull
     @Override
@@ -38,6 +41,16 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
         //这里是设置数据
         holder.itemView.setTag(position);
         holder.setData(mData.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //LogUtil.i(TAG, "item-->" + v.getTag());
+                if (mItemClickListener != null) {
+                    int clickPosition = (int) v.getTag();
+                    mItemClickListener.onItemClick(clickPosition, mData.get(clickPosition));
+                }
+            }
+        });
     }
 
     @Override
@@ -79,9 +92,17 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
 
             albumTitleTv.setText(album.getAlbumTitle());
             albumDesTv.setText(album.getAlbumIntro());
-            albumPlayCountTv.setText(album.getPlayCount() + "万");
+            albumPlayCountTv.setText(Wan.numToWan(album.getPlayCount()));
             albumContentCountTv.setText(album.getIncludeTrackCount() + "集");
             Picasso.get().load(album.getCoverUrlLarge()).into(albumCover);
         }
+    }
+
+    public void setRecommendItemClickListener(OnRecommendItemClickListener listener) {
+        mItemClickListener = listener;
+    }
+
+    public interface OnRecommendItemClickListener {
+        void onItemClick(int position, Album album);
     }
 }

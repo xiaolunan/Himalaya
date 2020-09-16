@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <ImageView
+        android:id="@+id/iv_large_cover"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="#ccc"
+        android:scaleType="fitXY" />
+
+    <com.renchunlin.himalaya.view.RoundRectImageView
+        android:id="@+id/viv_small_cover"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_below="@+id/iv_large_cover"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="-40dp"
+        android:background="#000"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_large_cover"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="-30dp"
+        android:layout_toEndOf="@+id/viv_small_cover"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_album_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标题"
+            android:textColor="@color/CFFFFFF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_album_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="内容"
+            android:textColor="@color/CFFFFFF"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
