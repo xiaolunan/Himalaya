@@ -26,6 +26,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
     //格式化时间
     private SimpleDateFormat mUpdateDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat mDurationFormat = new SimpleDateFormat("mm:ss");
+    private ItemClickListener mItemClickListener;
 
     @NonNull
     @Override
@@ -35,7 +36,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         //找到控件，设置数据
         View itemView = holder.itemView;
         //顺序ID
@@ -61,6 +62,15 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
 
         String updateTimeText = mUpdateDateFormat.format(track.getUpdatedAt());
         updateDateTv.setText(updateTimeText);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemClick(position);
+                }
+            }
+        });
     }
 
     @Override
@@ -81,5 +91,13 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
         }
+    }
+
+    public void setItemClickListener(ItemClickListener listener) {
+        mItemClickListener = listener;
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(int position);
     }
 }

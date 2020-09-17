@@ -72,8 +72,20 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
             public void onError(int errorCode, String errorMsg) {
                 LogUtil.i(TAG, "errorCode -- > " + errorCode);
                 LogUtil.i(TAG, "errorMsg -- > " + errorMsg);
+                handlerError(errorCode,errorMsg);
             }
         });
+    }
+
+    /**
+     * 如果是发生错误，那么就通知ui
+     * @param errorCode
+     * @param errorMsg
+     */
+    private void handlerError(int errorCode, String errorMsg) {
+        for (IAlbumDetailViewCallback callback : mCallbacks) {
+            callback.noNetworkError(errorCode,errorMsg);
+        }
     }
 
     private void handlerAlbumDetailResult(List<Track> tracks) {
