@@ -67,7 +67,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
             @Override
             public void onClick(View v) {
                 if (mItemClickListener != null) {
-                    mItemClickListener.onItemClick(position);
+                    mItemClickListener.onItemClick(mDetailData, position);
                 }
             }
         });
@@ -98,6 +98,6 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
     }
 
     public interface ItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(List<Track> mDetailData, int position);
     }
 }

@@ -1,7 +1,5 @@
 package com.renchunlin.himalaya.interfaces;
 
-import android.os.Trace;
-
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
 
@@ -48,14 +46,14 @@ public interface IPlayerViewCallback {
      *
      * @param list 播放器类列表数据
      */
-    void onListLoaded(List<Trace> list);
+    void onListLoaded(List<Track> list);
 
     /**
      * 播放模式改变了
      *
      * @param playMode
      */
-    void onPlayModeChage(XmPlayListControl.PlayMode playMode);
+    void onPlayModeChange(XmPlayListControl.PlayMode playMode);
 
     /**
      * 进度条的改变
@@ -63,7 +61,7 @@ public interface IPlayerViewCallback {
      * @param currentProgress
      * @param total
      */
-    void ProgressChange(long currentProgress, long total);
+    void ProgressChange(int currentProgress, int total);
 
     /**
      * 广告正在加载
@@ -74,4 +72,9 @@ public interface IPlayerViewCallback {
      * 广告结束
      */
     void onAdFinished();
+
+    /**
+     * 更新当前的节目
+     */
+    void onTrackUpdate(Track track, int playIndex);
 }

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.renchunlin.himalaya.Presenter.AlbumDetailPresenter;
+import com.renchunlin.himalaya.Presenter.PlayerPresenter;
 import com.renchunlin.himalaya.R;
 import com.renchunlin.himalaya.adapters.DetailListAdapter;
 import com.renchunlin.himalaya.base.BaseActivity;
@@ -191,8 +192,9 @@ public class DetailActivity extends BaseActivity implements IAlbumDetailViewCall
     }
 
     @Override
-    public void onItemClick(int position) {
-        //TODO:跳转到播放器页面
+    public void onItemClick(List<Track> mDetailData, int position) {
+        //设置播放器数据
+        PlayerPresenter.getInstance().setPlayList(mDetailData, position);
         Intent intent = new Intent(this, PlayerActivity.class);
         startActivity(intent);
     }
