@@ -21,7 +21,7 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = onSubViewLoaded(inflater,container);
+        mRootView = onSubViewLoaded(inflater, container);
         return mRootView;
     }
 
